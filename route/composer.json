@@ -1,0 +1,26 @@
+{
+	"name" : "windwork/route",
+	"description" : "Windwork route component",
+	"version" : "0.6.0",
+	"time" : "2017-06-26-18:00:00",
+	"require" : {
+		"php" : ">=5.5.0"
+	},
+	"license" : "MIT",
+	"keywords" : [
+		"route",
+		"router",
+		"Web路由"
+	],
+	"autoload" : {
+		"psr-4" : {
+			"wf\\route\\" : "lib"
+		}
+	},
+	"type" : "library",
+	"authors" : [{
+			"name" : "Windwork Community",
+			"homepage" : "http://windwork.org"
+		}
+	]
+}

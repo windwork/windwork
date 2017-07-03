@@ -1,0 +1,26 @@
+{
+	"name" : "windwork/captcha",
+	"description" : "windwork captcha component",
+	"keywords" : [
+		"captcha",
+		"anti robot"
+	],
+	"version" : "0.6.0",
+	"time" : "2017-06-26 16:10:00",
+	"require" : {
+		"php" : ">=5.5.0",
+		"ext-gd" : "*"
+	},
+	"license" : "MIT",
+	"autoload" : {
+		"psr-4" : {
+			"wf\\captcha\\" : "lib"
+		}
+	},
+	"type" : "library",
+	"authors" : [{
+			"name" : "Windwork Community",
+			"homepage" : "http://windwork.org"
+		}
+	]
+}

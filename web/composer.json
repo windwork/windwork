@@ -1,0 +1,38 @@
+{
+	"name" : "windwork/web",
+	"description" : "windwork web component",
+	"version" : "0.6.0",
+	"time" : "2017-06-26 19:30:00",
+	"license" : "MIT",
+	"require" : {
+		"php" : ">=5.5.0",
+		"windwork/cache" : "*",
+		"windwork/captcha" : "*",
+		"windwork/core" : "*",
+		"windwork/crypt" : "*",
+		"windwork/db" : "*",
+		"windwork/image" : "*",
+		"windwork/logger" : "*",
+		"windwork/mailer" : "*",
+		"windwork/model" : "*",
+		"windwork/pager" : "*",
+		"windwork/route" : "*",
+		"windwork/storage" : "*",
+		"windwork/template" : "*",
+		"windwork/util" : "*"
+	},
+	"autoload" : {
+		"files" : [
+			"lib/helper.php"
+		],
+		"psr-4" : {
+			"wf\\web\\" : "lib"
+		}
+	},
+	"type" : "library",
+	"authors" : [{
+			"name" : "Windwork Community",
+			"homepage" : "http://windwork.org"
+		}
+	]
+}

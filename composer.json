@@ -1,0 +1,26 @@
+{
+	"name" : "windwork/framework",
+	"description" : "Windwork, easy,quick,performance oop mvc web framework",
+	"version" : "0.4.0",
+	"require" : {
+		"php" : ">=5.5.0",
+		"ext-gd" : "*",
+		"ext-pdo_mysql" : "*",
+		"ext-mbstring" : "*"
+	},
+	"license" : "MIT",
+	"autoload" : {
+		"files" : [
+			"core/lib/Loader.php"
+		],
+		"psr-4" : {
+			"wf" : "./"
+		}
+	},
+	"type" : "project",
+	"authors" : [{
+			"name" : "Windwork Community",
+			"homepage" : "http://windwork.org"
+		}
+	]
+}
