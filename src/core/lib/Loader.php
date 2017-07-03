@@ -111,7 +111,7 @@ final class Loader
             // "libs/wf-{$component}/lib/{$class}.php";
             // "wf/{$component}/lib/{$class}.php";
             // "vendor/windwork/{$component}/lib/{$class}.php";
-            $file = WF_BASE_DIR . strtr("{$match[2]}lib\\{$match[3]}", '\\', '/') . '.php';
+            $file = WF_BASE_DIR . strtr("/{$match[2]}lib\\{$match[3]}", '\\', '/') . '.php';
             if (is_file($file)) {
                 return $file;
             }
@@ -150,17 +150,17 @@ final class Loader
             return true;
         }
         
-        require_once WF_BASE_DIR . 'core/lib/Benchmark.php';
-        require_once WF_BASE_DIR . 'core/lib/Config.php';
-        require_once WF_BASE_DIR . 'core/lib/Hook.php';
-        require_once WF_BASE_DIR . 'core/lib/ServiceLocator.php';
-        require_once WF_BASE_DIR . 'route/lib/RouteAbstract.php';
-        require_once WF_BASE_DIR . 'route/lib/strategy/Simple.php';
-        require_once WF_BASE_DIR . 'web/lib/Request.php';
-        require_once WF_BASE_DIR . 'web/lib/Response.php';
-        require_once WF_BASE_DIR . 'web/lib/Application.php';
-        require_once WF_BASE_DIR . 'web/lib/Controller.php';
-        require_once WF_BASE_DIR . 'web/lib/Dispatcher.php';
+        require_once WF_BASE_DIR . '/core/lib/Benchmark.php';
+        require_once WF_BASE_DIR . '/core/lib/Config.php';
+        require_once WF_BASE_DIR . '/core/lib/Hook.php';
+        require_once WF_BASE_DIR . '/core/lib/ServiceLocator.php';
+        require_once WF_BASE_DIR . '/route/lib/RouteAbstract.php';
+        require_once WF_BASE_DIR . '/route/lib/strategy/Simple.php';
+        require_once WF_BASE_DIR . '/web/lib/Request.php';
+        require_once WF_BASE_DIR . '/web/lib/Response.php';
+        require_once WF_BASE_DIR . '/web/lib/Application.php';
+        require_once WF_BASE_DIR . '/web/lib/Controller.php';
+        require_once WF_BASE_DIR . '/web/lib/Dispatcher.php';
     }
     
     /**
