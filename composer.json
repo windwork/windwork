@@ -1,7 +1,7 @@
 {
 	"name" : "windwork/framework",
 	"description" : "Windwork, easy,quick,performance oop mvc web framework",
-	"version" : "0.4.0",
+	"version" : "0.6.0",
 	"require" : {
 		"php" : ">=5.5.0",
 		"ext-gd" : "*",
@@ -11,11 +11,8 @@
 	"license" : "MIT",
 	"autoload" : {
 		"files" : [
-			"core/lib/Loader.php"
-		],
-		"psr-4" : {
-			"wf" : "./"
-		}
+			"src/core/lib/Loader.php"
+		]
 	},
 	"type" : "project",
 	"authors" : [{

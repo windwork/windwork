@@ -345,11 +345,15 @@ function exceptionHandler($e)
     $code = $e->getCode();
     $message = $e->getMessage();
     $message = "<b style='color:#F00; font-size:14px; line-height:18px;'>{$message}</b>";
+    
+    $trimPath = \wf\core\Loader::getClassPath();
+    $trimPath[] = WF_BASE_DIR;
 
     $line = $e->getLine();
-    $file = str_replace([ROOT_DIR, DIRECTORY_SEPARATOR], ['', '/'], $e->getFile());
+    $file = str_replace($trimPath, '', $e->getFile());
+    $file = str_replace(DIRECTORY_SEPARATOR, '/', $e->getFile());
     $file = trim($file, '/');
-    $trace = str_replace(ROOT_DIR, '', $e->getTraceAsString());
+    $trace = str_replace($trimPath, '', $e->getTraceAsString());
     $trace = "<pre class=\"error-trace\">{$trace}</pre>\n";
     
     if (in_array($code, array(401, 403, 404))) {                

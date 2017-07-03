@@ -11,17 +11,21 @@ namespace wf\core;
 
 defined('IS_IN') or die('access denied');
 
-// wf文件夹前缀（{ROOT_DIR}/wf/或{ROOT_DIR}/wf-或{ROOT_DIR}/vendor/windwork/格式）
-define('WF_PRE_DIR', substr(dirname(__DIR__), 0, -4));  
+// wf文件夹前缀（{ROOT_DIR}/wf/src或{ROOT_DIR}/vendor/windwork/wf/src）
+define('WF_BASE_DIR', dirname(dirname(__DIR__)));  
 
 // 项目文件夹
 if(!defined('ROOT_DIR')) {
-    if (false !== strpos(strtr(WF_PRE_DIR, '\\', '/'), 'vendor/windwork')) {
-        // Windwork以composer方式安装在的vendor文件夹中
-        define('ROOT_DIR', dirname(dirname(WF_PRE_DIR)));
+    if (false !== strpos(strtr(WF_BASE_DIR, '\\', '/'), 'vendor/windwork')) {
+        // Windwork以composer方式安装在的vendor文件夹中，{ROOT_DIR}/vendor/windwork/wf/src）
+        define('ROOT_DIR', dirname(dirname(dirname(WF_BASE_DIR))));
     } else {
-        // Windwork框架以wf文件夹的形式放在站点根目录
-        define('ROOT_DIR', dirname(WF_PRE_DIR));
+        // Windwork框架以wf文件夹的形式放在站点根目录,{ROOT_DIR}/wf/src
+        define('ROOT_DIR', dirname(dirname(WF_BASE_DIR)));
+    }
+    
+    if (!is_file(ROOT_DIR . '/config/app.php')) {
+        die('"config/app.php" file not found in ' . ROOT_DIR);
     }
 }
 
@@ -71,6 +75,15 @@ final class Loader
     }
     
     /**
+     * 获取已设置的classPath
+     * @return array
+     */
+    public static function getClassPath()
+    {
+        return static::$classPath;
+    }
+    
+    /**
      * 加载类脚本
      * @param string $class
      */
@@ -98,7 +111,7 @@ final class Loader
             // "libs/wf-{$component}/lib/{$class}.php";
             // "wf/{$component}/lib/{$class}.php";
             // "vendor/windwork/{$component}/lib/{$class}.php";
-            $file = WF_PRE_DIR . strtr("{$match[2]}lib\\{$match[3]}", '\\', '/') . '.php';
+            $file = WF_BASE_DIR . strtr("{$match[2]}lib\\{$match[3]}", '\\', '/') . '.php';
             if (is_file($file)) {
                 return $file;
             }
@@ -137,17 +150,17 @@ final class Loader
             return true;
         }
         
-        require_once WF_PRE_DIR . 'core/lib/Benchmark.php';
-        require_once WF_PRE_DIR . 'core/lib/Config.php';
-        require_once WF_PRE_DIR . 'core/lib/Hook.php';
-        require_once WF_PRE_DIR . 'core/lib/ServiceLocator.php';
-        require_once WF_PRE_DIR . 'route/lib/RouteAbstract.php';
-        require_once WF_PRE_DIR . 'route/lib/strategy/Simple.php';
-        require_once WF_PRE_DIR . 'web/lib/Request.php';
-        require_once WF_PRE_DIR . 'web/lib/Response.php';
-        require_once WF_PRE_DIR . 'web/lib/Application.php';
-        require_once WF_PRE_DIR . 'web/lib/Controller.php';
-        require_once WF_PRE_DIR . 'web/lib/Dispatcher.php';
+        require_once WF_BASE_DIR . 'core/lib/Benchmark.php';
+        require_once WF_BASE_DIR . 'core/lib/Config.php';
+        require_once WF_BASE_DIR . 'core/lib/Hook.php';
+        require_once WF_BASE_DIR . 'core/lib/ServiceLocator.php';
+        require_once WF_BASE_DIR . 'route/lib/RouteAbstract.php';
+        require_once WF_BASE_DIR . 'route/lib/strategy/Simple.php';
+        require_once WF_BASE_DIR . 'web/lib/Request.php';
+        require_once WF_BASE_DIR . 'web/lib/Response.php';
+        require_once WF_BASE_DIR . 'web/lib/Application.php';
+        require_once WF_BASE_DIR . 'web/lib/Controller.php';
+        require_once WF_BASE_DIR . 'web/lib/Dispatcher.php';
     }
     
     /**
