@@ -1,5 +1,5 @@
 {
-	"name" : "windwork/framework",
+	"name" : "windwork/wf",
 	"description" : "Windwork, easy,quick,performance oop mvc web framework",
 	"version" : "0.6.0",
 	"require" : {
