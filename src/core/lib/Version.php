@@ -23,208 +23,35 @@ final class Version
      * 当前Windwork大版本号
      * @var string
      */
-    const VERSION = '0.6';
+    const VERSION = '0.6.0';
     
-    /**
-     * 
-     * @var array
-     */
-    private static $componentList = [
-        'cache',
-        'captcha',
-        'core',
-        'crypt',
-        'db',
-        'image',
-        'logger',
-        'mailer',
-        'model',
-        'pager',
-        'route',
-        'storage',
-        'template',
-        'util',
-        'web',
-        'widget',
-    ];
-    
-    /**
-     * 
-     * @param string $component = null 如果指定组件则只返回一个组件的版本信息
-     * @param string $isCache
-     */
-    public static function getComponentVersion($component = null, $isCache = true)
-    {
-        if ($component && !in_array($component, static::$componentList)) {
-            $msg = '$component param not allow to be ' . $component . ', It\'s only allow ' 
-                . implode(',', static::$componentList[$component]) . '.';
-            throw new \wf\core\Exception($msg);
-        }
+    const RELEASE = '2017-07-03 17:30:00';
         
-        if ($isCache && function_exists('\wfCache') && false != ($v = \wfCache()->read('wf/version/allComponentVersion'))) {            
-            return $component ? $v['component'][$component] : $v;
-        }
-        
-        $v = [
-            'release' => '',
-            'component' => [],
-        ];
-        
-        $wfDir = dirname(dirname(__DIR__));
-        
-        foreach (static::$componentList as $cmp) {
-            if($cmp[0] == '.') {
-                continue;
-            }
-            
-            $composerFile = "{$wfDir}/{$cmp}/composer.json";
-            if(!is_file($composerFile)) {
-                continue;
-            }
-            
-            $composerJson = @file_get_contents($composerFile);            
-            if (!$composerJson) {
-                continue;
-            }
-            
-            $versionObj = json_decode($composerJson, false);
-            if (empty($versionObj->version)) {
-                continue;
-            }
-            
-            $v['component'][$cmp] = [
-                'version' => $versionObj->version,
-                'time' => (string)@$versionObj->time,
-            ];
-            
-            if (empty($versionObj->time)) {
-                continue;
-            }
-            
-            if (!$v['release'] || strtotime($versionObj->time) > strtotime($v['release'])) {
-                $v['release'] = $versionObj->time;                        
-            }
-        }
-        
-        if ($isCache && function_exists('\wfCache')) {
-            \wfCache()->write('wf/version/allComponentVersion', $v);
-        }
-        
-        return $component ? $v['component'][$component] : $v;
-    }
-    
-    /**
-     * 获取本地Windwork组件最后发布时间
-     * @param string $component = null 如果为null则从所有组件中挑选最大的
-     * @param string $isCache = true 是否缓存
-     */
-    public static function getReleaseTime($component = null, $isCache = true)
-    {
-        $version = static::getComponentVersion($component, $isCache);
-        
-        if ($component) {
-            return $version['time'];
-        } else {
-            return $version['release'];
-        }
-    }
-    
-    
-    /**
-     * 获取远程Windwork组件最后发布时间
-     * 
-     * @param string $component = null 如果指定组件则只返回一个组件的版本信息
-     * @param string $isCache
-     */
-    public static function getRemoteComponentVersion($component = null, $isCache = true)
-    {
-        if ($component && !in_array($component, static::$componentList)) {
-            $msg = '$component param not allow to be ' . $component . ', It\'s only allow '
-                . implode(',', static::$componentList[$component]) . '.';
-                throw new \wf\core\Exception($msg);
-        }
-        
-        // 从缓存读取，则读取全部组件
-        if (!$component || $isCache) {
-            if ($isCache && function_exists('\wfCache') && false != ($v = \wfCache()->read('wf/version/allRemoteComponentVersion'))) {
-                return $component ? $v['component'][$component] : $v;
-            }
-            
-            $v = [
-                'release' => '',
-                'component' => [],
-            ];
-            
-            foreach (static::$componentList as $cmp) {
-                if($cmp[0] == '.') {
-                    continue;
-                }
-                
-                $composerFile = "https://raw.githubusercontent.com/windwork/wf-{$cmp}/master/composer.json";
-                $composerJson = @file_get_contents($composerFile);
-                
-                if (!$composerJson) {
-                    continue;
-                }
-                
-                $versionObj = json_decode($composerJson, false);
-                if (empty($versionObj->version)) {
-                    continue;
-                }
-                
-                $v['component'][$cmp] = [
-                    'version' => $versionObj->version,
-                    'time' => (string)@$versionObj->time,
-                ];
-                
-                if (empty($versionObj->time)) {
-                    continue;
-                }
-                
-                if (!$v['release'] || strtotime($versionObj->time) > strtotime($v['release'])) {
-                    $v['release'] = $versionObj->time;
-                }
-            }
-            
-            if (!$v['component']) {
-                throw new \wf\core\Exception('can\'t read windwork component composer.json file from github.com');
-            }
-            
-            if ($isCache && function_exists('\wfCache')) {
-                \wfCache()->write('wf/version/allComponentVersion', $v);
-            }
-            
-            return $component ? $v['component'][$component] : $v;
-            
-        }
-        
-        // 指定$component并且不从缓存读取        
-        $composerFile = "https://github.com/windwork/wf-{$cmp}/composer.json";
-        $composerJson = @file_get_contents($composerFile);
-        if (!$composerJson || !($versionObj = @json_decode($composerJson, false))) {
-            throw new \wf\core\Exception('can\'t read windwork component composer.json file from github.com');
-        }
-        
-        return [
-            'version' => $versionObj->version,
-            'time' => (string)@$versionObj->time,
-        ];
-    }
-    
     /**
      * 所有组件在GitHub上最后发布的时间
      * 
      * @param string $component = null 如果为null则从所有组件中挑选最大的
      * @param string $isCache = true 是否缓存
      */
-    public static function getRemoteReleaseTime($component = null, $isCache = true)
+    public static function getLatest()
     {
-        $version = static::getRemoteComponentVersion($component, $isCache);
+        $composerFile = "https://raw.githubusercontent.com/windwork/wf/master/composer.json";
+        $composerJson = @file_get_contents($composerFile);
         
-        if ($component) {
-            return $version['time'];
-        } else {
-            return $version['release'];
+        if (!$composerJson || (false == $composerObj = json_decode($composerJson)) || !$composerObj->version) {
+            throw new Exception('can\'t read composer file: ' . $composerFile);
         }
+        
+        $composerObj = json_decode($composerJson);
+        if (!$composerObj || !$composerObj->version) {
+            throw new Exception('composer.json data error: ' . $composerJson);
+        }
+        
+        $latest = [
+            'version' => $composerObj->version,
+            'release' => @$composerObj->time,
+        ];
+        
+        return $latest;
     }
 }

@@ -10,24 +10,10 @@
 namespace wf\core;
 
 defined('IS_IN') or die('access denied');
+defined('ROOT_DIR') or die('Please define "ROOT_DIR" const (where the site document root directory)');
 
 // wf文件夹前缀（{ROOT_DIR}/wf/src或{ROOT_DIR}/vendor/windwork/wf/src）
-define('WF_BASE_DIR', dirname(dirname(__DIR__)));  
-
-// 项目文件夹
-if(!defined('ROOT_DIR')) {
-    if (false !== strpos(strtr(WF_BASE_DIR, '\\', '/'), 'vendor/windwork')) {
-        // Windwork以composer方式安装在的vendor文件夹中，{ROOT_DIR}/vendor/windwork/wf/src）
-        define('ROOT_DIR', dirname(dirname(dirname(WF_BASE_DIR))));
-    } else {
-        // Windwork框架以wf文件夹的形式放在站点根目录,{ROOT_DIR}/wf/src
-        define('ROOT_DIR', dirname(dirname(WF_BASE_DIR)));
-    }
-    
-    if (!is_file(ROOT_DIR . '/config/app.php')) {
-        die('"config/app.php" file not found in ' . ROOT_DIR);
-    }
-}
+define('WF_BASE_DIR', dirname(dirname(__DIR__)));
 
 // 程序执行开始时间
 defined('WF_START_TIME') || define('WF_START_TIME', microtime(1));
