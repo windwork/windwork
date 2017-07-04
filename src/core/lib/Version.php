@@ -23,7 +23,7 @@ final class Version
      * 当前Windwork大版本号
      * @var string
      */
-    const VERSION = '0.6.0';
+    const VERSION = '0.6.1';
     
     const RELEASE = '2017-07-03 17:30:00';
         
